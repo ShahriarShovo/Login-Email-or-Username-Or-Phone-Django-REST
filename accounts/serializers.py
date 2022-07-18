@@ -1,10 +1,22 @@
 from rest_framework import serializers
 from accounts.models import User
+from django.contrib.auth.hashers import make_password
 
 
 class User_Serializers(serializers.ModelSerializer):
 
-    password = serializers.CharField(max_length=255,style={'input_type':'password'})
+
+    # check the new save method
+    def create(self,validated_data):
+        obj = self.Meta.model(**validated_data)
+        password = validated_data['password']
+
+        if password is not None:
+            obj.password = make_password(password)
+            obj.save()
+            print('save')
+
+            return obj
 
 
     class Meta:
@@ -18,4 +30,8 @@ class User_Serializers(serializers.ModelSerializer):
         #         instance.set_password(password)
         #     instance.save()
         #     return instance
+
+
+
+
 
