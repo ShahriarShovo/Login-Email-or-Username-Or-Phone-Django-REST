@@ -24,7 +24,7 @@ def get_tokens_for_user(user):
 @api_view(['POST'])
 def user_registration(request):
     if request.method=='POST':
-        #password=request.data.get('password')
+        password=request.data.get('password')
         user=User_Serializers(data=request.data)
         if user.is_valid():
             #user_serialiers.set_password(password)
