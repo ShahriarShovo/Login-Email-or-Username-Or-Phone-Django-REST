@@ -27,12 +27,9 @@ def user_registration(request):
         # password=request.data.get('password')
         user=User_Serializers(data=request.data)
         if user.is_valid():
-            #user_serialiers.set_password(password)
-            #user.password = make_password('password')
-            user.save()
-            #user.set_password(user_serialiers[password])
-            #token = get_tokens_for_user(user)
-            return Response({'message':'you siginup in Successfully'}, status=status.HTTP_200_OK)
+            store=user.save()
+            token = get_tokens_for_user(store)
+            return Response({'message':'you siginup in Successfully','token':token}, status=status.HTTP_200_OK)
         else:
             return Response(user.errors, status=status.HTTP_401_UNAUTHORIZED)
     else:
